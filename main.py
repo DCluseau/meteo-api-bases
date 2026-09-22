@@ -1,15 +1,15 @@
 import requests
 import math
 
-if __name__ == '__main__':
-    # Get weather in Toulouse
+def get_temp(city_name, lat, lon, api_key):
     # Send GET request
     # Put response in rep variable
-    rep = requests.get('https://api.openweathermap.org/data/2.5/forecast?lat=43.6000&lon=1.4333&appid=344e1eb4f37ada7d4c994e4e760f05fb')
+    rep = requests.get(
+        'https://api.openweathermap.org/data/2.5/forecast?lat=' + str(lat) + '&lon=' + str(lon) + '&appid=' + api_key)
     # Put json from the response in json variable
     json = rep.json()
-    # Print the city
-    print('Weather in Toulouse')
+    # Print the city name
+    print('Weather in ' + city_name + ' : ')
     # Initialize temp list
     temp = []
     for weather in json['list']:
@@ -19,24 +19,10 @@ if __name__ == '__main__':
     # Find and display maximum temperature
     print(' - Maximum temperature for 5 days : ' + str(max(temp)) + '°C')
 
-    # Get weather in Saint Geours
-    temp = []
-    rep = requests.get(
-        'https://api.openweathermap.org/data/2.5/forecast?lat=-1.2333&lon=1.4333&appid=344e1eb4f37ada7d4c994e4e760f05fb')
-    json = rep.json()
-    print('Weather in Saint Geours')
-    for weather in json['list']:
-        temp.append(math.trunc(weather['main']['temp'] - 273))
-    print(' - Minimum temperature for 5 days : ' + str(min(temp)) + '°C')
-    print(' - Maximum temperature for 5 days : ' + str(max(temp)) + '°C')
-
+if __name__ == '__main__':
+    # Get weather in Toulouse
+    get_temp('Toulouse', 43.6000, 1.4333, '344e1eb4f37ada7d4c994e4e760f05fb')
+    # Get weather in Saint-Geours-de-Maremne
+    get_temp('Saint-Geours-de-Maremne', 43.6833, -1.2333, '344e1eb4f37ada7d4c994e4e760f05fb')
     # Get weather in Mérignac
-    rep = requests.get(
-        'https://api.openweathermap.org/data/2.5/forecast?lat=44.8333&lon=-0.6333&appid=344e1eb4f37ada7d4c994e4e760f05fb')
-    json = rep.json()
-    temp = []
-    print('Weather in Mérignac')
-    for weather in json['list']:
-        temp.append(math.trunc(weather['main']['temp'] - 273))
-    print(' - Minimum temperature for 5 days : ' + str(min(temp)) + '°C')
-    print(' - Maximum temperature for 5 days : ' + str(max(temp)) + '°C')
+    get_temp('Mérignac', 44.8459, -0.6552, '344e1eb4f37ada7d4c994e4e760f05fb')
